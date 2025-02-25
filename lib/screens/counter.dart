@@ -1,4 +1,8 @@
+import 'package:bloc_state_management/bloc/counter/counter_bloc.dart';
+import 'package:bloc_state_management/bloc/counter/counter_event.dart';
+import 'package:bloc_state_management/bloc/counter/counter_state.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CounterApp extends StatefulWidget {
   const CounterApp({super.key});
@@ -16,17 +20,25 @@ class _CounterAppState extends State<CounterApp> {
       ),
       body: Column(
         children: <Widget>[
-          const Text("counter Value 0"),
+          BlocBuilder<CounterBloc,CounterState>(builder: (context, state){
+            return  Text("counter Value ${state.counter}");
+
+          },),
           Row(
             children: <Widget>[
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  context.read<CounterBloc>().add(IncrementCounter());
+                },
                 child: const Text(
                   "Increment",
                 ),
               ),
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  context.read<CounterBloc>().add(IncrementCounter());
+
+                },
                 child: const Text(
                   "Decrement",
                 ),

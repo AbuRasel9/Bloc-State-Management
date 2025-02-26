@@ -11,3 +11,9 @@ class SwitchOnOffEvent extends SwitchEvent{
   @override
   List<Object>get props=>[switchValue];
 }
+class SliderIncrementDecrementEvent extends SwitchEvent{
+  final double sliderValue;
+  SliderIncrementDecrementEvent({required this.sliderValue});
+  @override
+  List<Object>get props=>[sliderValue];
+}

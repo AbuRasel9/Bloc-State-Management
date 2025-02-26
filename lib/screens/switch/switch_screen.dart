@@ -25,33 +25,53 @@ class _SwitchScreenState extends State<SwitchScreen> {
           children: <Widget>[
             Row(
               children: <Widget>[
-                const Text("Notification",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),),
-                BlocBuilder<SwitchBloc,SwitchState>(builder: (context, state) {
-                  return  Switch(
-                    value: state.switchValue,
-                    onChanged: (value) {
-                      context.read<SwitchBloc>().add(SwitchOnOffEvent(switchValue: value,),);
-                    },
-                  );
-
-                },)
-
+                const Text(
+                  "Notification",
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                ),
+                BlocBuilder<SwitchBloc, SwitchState>(
+                  builder: (context, state) {
+                    return Switch(
+                      value: state.switchValue,
+                      onChanged: (value) {
+                        context.read<SwitchBloc>().add(
+                              SwitchOnOffEvent(
+                                switchValue: value,
+                              ),
+                            );
+                      },
+                    );
+                  },
+                )
               ],
-
             ),
-            const SizedBox(height: 10,),
-            Container(
-              height: 200,
-              width: double.infinity,
-              color: Colors.red,
+            BlocBuilder<SwitchBloc, SwitchState>(
+              builder: (context, state) {
+                return Container(
+                  height: 200,
+                  width: double.infinity,
+                  color: Colors.red.withOpacity(state.sliderValue),
+                );
+              },
             ),
-            Slider(value: 1, onChanged: (value) {
-
-            },),
+            const SizedBox(
+              height: 10,
+            ),
+            BlocBuilder<SwitchBloc, SwitchState>(
+              builder: (context, state) {
+                return Slider(
+                  value: state.sliderValue,
+                  onChanged: (value) {
+                    print(state.sliderValue);
+                    context.read<SwitchBloc>().add(SliderIncrementDecrementEvent(sliderValue: value));
+                    
+                  },
+                );
+              },
+            ),
           ],
         ),
       ),
-
     );
   }
 }

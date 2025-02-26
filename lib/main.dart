@@ -1,5 +1,6 @@
 import 'package:bloc_state_management/bloc/counter/counter_bloc.dart';
 import 'package:bloc_state_management/screens/counter/counter.dart';
+import 'package:bloc_state_management/screens/switch/switch_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -15,7 +16,7 @@ class MyApp extends StatelessWidget {
     return BlocProvider(
       create: (context) => CounterBloc(),
       child: MaterialApp(
-        home: CounterApp(),
+        home: SwitchScreen(),
       ),
     );
   }

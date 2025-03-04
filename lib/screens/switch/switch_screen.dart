@@ -46,6 +46,8 @@ class _SwitchScreenState extends State<SwitchScreen> {
               ],
             ),
             BlocBuilder<SwitchBloc, SwitchState>(
+              //when switch button click than build this widget
+              buildWhen: (previous, current) => previous.switchValue!=current.switchValue,
               builder: (context, state) {
                 return Container(
                   height: 200,
@@ -58,11 +60,13 @@ class _SwitchScreenState extends State<SwitchScreen> {
               height: 10,
             ),
             BlocBuilder<SwitchBloc, SwitchState>(
+
+              //when slider  click than build this widget
+              buildWhen: (previous, current) => previous.sliderValue!=current.sliderValue,
               builder: (context, state) {
                 return Slider(
                   value: state.sliderValue,
                   onChanged: (value) {
-                    print(state.sliderValue);
                     context.read<SwitchBloc>().add(SliderIncrementDecrementEvent(sliderValue: value));
                     
                   },

@@ -1,9 +1,10 @@
-import 'package:bloc_state_management/bloc/counter/counter_bloc.dart';
-import 'package:bloc_state_management/bloc/switch/switch_bloc.dart';
-import 'package:bloc_state_management/screens/counter/counter.dart';
-import 'package:bloc_state_management/screens/switch/switch_screen.dart';
-import 'package:flutter/material.dart';
+import 'package:bloc_state_management/bloc/imagePicker/image_picker_bloc.dart';
+import 'package:bloc_state_management/screens/home_screen.dart';
+import 'package:bloc_state_management/utils/image_picker_utils.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:bloc/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter/material.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,13 +15,16 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => CounterBloc(),
-      child: BlocProvider(
-        create: (context) => SwitchBloc(),
-        child: const MaterialApp(
-          home: SwitchScreen(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => ImagePickerBloc(
+            ImagePickerUtils(),
+          ),
         ),
+      ],
+      child: const MaterialApp(
+        home: HomeScreen(),
       ),
     );
   }

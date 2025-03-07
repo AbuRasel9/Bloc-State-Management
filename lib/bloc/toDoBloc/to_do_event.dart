@@ -17,5 +17,5 @@ class ToDoDeleteEvent extends ToDoEvent{
   final int index;
   const ToDoDeleteEvent({required this.index});
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [index];
 }

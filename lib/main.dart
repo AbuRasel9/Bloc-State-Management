@@ -1,6 +1,5 @@
-import 'package:bloc_state_management/bloc/imagePicker/image_picker_bloc.dart';
+import 'package:bloc_state_management/bloc/toDoBloc/to_do_bloc.dart';
 import 'package:bloc_state_management/screens/home_screen.dart';
-import 'package:bloc_state_management/utils/image_picker_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,11 +16,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(
-          create: (context) => ImagePickerBloc(
-            ImagePickerUtils(),
-          ),
-        ),
+        BlocProvider(create: (context) => ToDoBloc(),),
+
       ],
       child: const MaterialApp(
         home: HomeScreen(),

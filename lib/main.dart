@@ -1,5 +1,6 @@
-import 'package:bloc_state_management/bloc/favouriteBloc/favourite_bloc.dart';
-import 'package:bloc_state_management/repository/favourite_repository.dart';
+
+import 'package:bloc_state_management/bloc/postBloc/post_bloc.dart';
+import 'package:bloc_state_management/repository/post_repository.dart';
 import 'package:bloc_state_management/screens/home_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
@@ -13,14 +14,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(create: (context) => FavouriteBloc(FavouriteRepository()),),
-
-      ],
-      child: const MaterialApp(
-        home: HomeScreen(),
-      ),
-    );
+    return MultiBlocProvider(providers: [
+      BlocProvider(create: (context) => PostBloc(PostRepository()),),
+    ], child:  MaterialApp(
+      home: HomeScreen(),
+    ));
   }
 }

@@ -1,10 +1,14 @@
-import 'package:bloc_state_management/bloc/favouriteBloc/favourite_event.dart';
-import 'package:bloc_state_management/model/favourite_item_model.dart';
+import 'dart:convert';
+
+import 'package:bloc_state_management/bloc/postBloc/post_bloc.dart';
+import 'package:bloc_state_management/bloc/postBloc/post_event.dart';
+import 'package:bloc_state_management/bloc/postBloc/post_state.dart';
+import 'package:bloc_state_management/model/post_model.dart';
+import 'package:bloc_state_management/repository/post_repository.dart';
+import 'package:bloc_state_management/utils/enum.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../bloc/favouriteBloc/favourite_bloc.dart';
-import '../bloc/favouriteBloc/favourite_state.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -14,103 +18,54 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  List<PostModel>data=[];
+  getData() async {
+    data=await PostRepository().fetchPostList();
+    setState(() {
+
+    });
+
+  }
   @override
   void initState() {
-    context.read<FavouriteBloc>().add(FetchFavouriteListEvent());
+    context.read<PostBloc>().add(FetchPostEvent());
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("Home Screen"),
-        actions: [
-          IconButton(
-            onPressed: () {
-              context.read<FavouriteBloc>().add(DeleteFavouriteItemEvent());
-            },
-            icon: Icon(
-              Icons.delete,
-              color: Colors.red,
-            ),
-          ),
-        ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: BlocBuilder<FavouriteBloc, FavouriteState>(
-          builder: (context, state) {
+      body: Padding(padding: EdgeInsets.all(16),
 
-            switch (state.status) {
-              case ListStatus.loading:
-                return const Center(
-                  child: CircularProgressIndicator(
-                    color: Colors.deepPurple,
-                  ),
-                );
-              case ListStatus.success:
-                return ListView.builder(
-                  itemCount: state.favouriteList.length,
-                  itemBuilder: (context, index) {
-                    final item = state.favouriteList[index];
-                    return Card(
-                      child: ListTile(
-                        leading: Checkbox(
-                          value: item.isDeleting,
-                          onChanged: (value) {
-                            context.read<FavouriteBloc>().add(
-                                  SelectFavouriteItemEvent(
-                                    item: FavouriteItemModel(
-                                      id: item.id,
-                                      title: item.title,
-                                      isDeleting: item.isDeleting ?? false
-                                          ? false
-                                          : true,
-                                      isFavourite: item.isFavourite ?? false
-                                          ? true
-                                          : false,
-                                    ),
-                                  ),
-                                );
-                          },
-                        ),
-                        title: Text(item.title),
-                        trailing: IconButton(
-                          onPressed: () {
-                            context.read<FavouriteBloc>().add(
-                                  FavouriteItemEvent(
-                                    item: FavouriteItemModel(
-                                      id: item.id,
-                                      title: item.title,
-                                      isFavourite: item.isFavourite ?? false
-                                          ? false
-                                          : true,
-                                      isDeleting:    item.isDeleting ?? false
-                                      ? true
-                                      : false,
-                                    ),
-                                  ),
-                                );
-                          },
-                          icon: Icon(
-                            item.isFavourite ?? false
-                                ? Icons.favorite
-                                : Icons.favorite_border,
-                          ),
-                        ),
-                      ),
-                    );
-                  },
-                );
+      child: BlocBuilder<PostBloc,PostState>(builder: (context, state) {
+        switch (state.postStatus){
+          case PostStatus.loding:
+            return const Center(child: CircularProgressIndicator(),);
+          case PostStatus.success:
+            return ListView.builder(
+              itemCount: state.postList.length,
+              itemBuilder: (context, index) {
+              final item=state.postList[index];
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: ListTile(
+                  title: Text(item.name ?? ""),
+                  subtitle: Text(item.body ?? ""),
+                  leading: Text(item.id?.toString() ?? ""),
+                  trailing: Text(item.postId?.toString() ?? ""),
 
-              case ListStatus.error:
-                return const Center(
-                  child: Text("Something went to wrong"),
-                );
-            }
-          },
-        ),
+                ),
+              );
+            },);
+          default:
+            return const SizedBox();
+        }
+
+      },),
       ),
     );
   }

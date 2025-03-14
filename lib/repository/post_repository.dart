@@ -10,7 +10,7 @@ class PostRepository {
   Future<List<PostModel>>fetchPostList()async{
     try{
       Response response=await get(Uri.parse("https://jsonplaceholder.typicode.com/comments"));
-
+print(response.body);
       if(response.statusCode==200){
         final body=jsonDecode(response.body);
         return List<PostModel>.from(body.map((e)=>PostModel.fromJson(e)));

@@ -4,11 +4,11 @@
 
 import 'dart:convert';
 
-List<PostModel> postModelFromJson(String str) => List<PostModel>.from(json.decode(str).map((x) => PostModel.fromJson(x)));
+import 'package:bloc_state_management/utils/filter.dart';
 
-String postModelToJson(List<PostModel> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
-class PostModel {
+
+class PostModel extends Filter{
   int? postId;
   int? id;
   String? name;
@@ -53,4 +53,9 @@ class PostModel {
     "email": email,
     "body": body,
   };
+
+  @override
+  String getKey() {
+      return "$name";
+  }
 }

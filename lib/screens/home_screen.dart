@@ -42,6 +42,7 @@ class _HomeScreenState extends State<HomeScreen> {
       body: Padding(padding: const EdgeInsets.all(16),
 
       child: BlocBuilder<PostBloc,PostState>(builder: (context, state) {
+        print("--------------${state.tempPostList}");
         switch (state.postStatus){
           case PostStatus.loding:
             return const Center(child: CircularProgressIndicator(),);
@@ -58,14 +59,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 Expanded(
-                  child:state.searchEmptyMessage.isNotEmpty?Center(
-                    child: Text(state.searchEmptyMessage,style: const TextStyle(
-                      fontSize: 22,fontWeight: FontWeight.bold,
-                    ),),
-                  ): ListView.builder(
-                    itemCount:state.tempPostList.isEmpty? state.postList.length:state.tempPostList.length,
+                  child: ListView.builder(
+                    itemCount:state.tempPostList.length,
                     itemBuilder: (context, index) {
-                    final item=state.tempPostList.isEmpty? state.postList[index]: state.tempPostList[index];
+                    final item= state.tempPostList[index];
                     return  Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 8.0),
                       child: ListTile(

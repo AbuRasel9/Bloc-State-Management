@@ -1,9 +1,12 @@
+import 'dart:convert';
+
 import 'package:bloc_state_management/bloc/postBloc/post_event.dart';
 import 'package:bloc_state_management/bloc/postBloc/post_state.dart';
 import 'package:bloc_state_management/model/post_model.dart';
 import 'package:bloc_state_management/repository/post_repository.dart';
 import 'package:bloc_state_management/utils/enum.dart';
 import 'package:bloc_state_management/utils/search.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class PostBloc extends Bloc<PostEvent, PostState> {
@@ -41,14 +44,17 @@ class PostBloc extends Bloc<PostEvent, PostState> {
   }
 
   void _searchItem(SearchItemEvent event, Emitter<PostState> emit) {
-    //if search string empty than set post list empty
+    //if search string empty than set post list data in temp post list
     if (event.searchString.isEmpty) {
-      state.copyWith(tempPostList: state.postList);
+
+      emit(state.copyWith(tempPostList: state.postList,message: "No Data Found"));
     } else {
       tempPostList = Search.find(items: state.postList, q: event.searchString);
-      state.copyWith(
-        tempPostList: tempPostList,
-      );
+
+ emit(     state.copyWith(
+     tempPostList: tempPostList,
+     searchEmptyMessage: ""
+ ));
     }
   }
 }

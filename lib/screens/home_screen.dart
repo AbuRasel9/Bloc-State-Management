@@ -42,7 +42,7 @@ class _HomeScreenState extends State<HomeScreen> {
       body: Padding(padding: const EdgeInsets.all(16),
 
       child: BlocBuilder<PostBloc,PostState>(builder: (context, state) {
-        print("--------------${state.tempPostList}");
+
         switch (state.postStatus){
           case PostStatus.loding:
             return const Center(child: CircularProgressIndicator(),);
